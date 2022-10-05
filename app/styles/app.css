@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+  background: gray;
+}
+
+.piano {
+  display: flex;
+  justify-content: center;
+  vertical-align: top;
+}
+
+.key {
+  background-color: white;
+  border: 0;
+  margin: 1px;
+  padding: 0;
+  height: 8em;
+  width: 2em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.key:active {
+  background-color: #cde;
+}
+
+.key--ebony {
+  background-color: #111;
+  margin-left: -0.8em;
+  margin-right: -0.8em;
+  width: 1.6em;
+  height: 5em;
+  z-index: 1;
+}
+.key--ebony:active {
+  background-color: #234;
+}
+
+.key--csharp {
+  margin-left: -1em;
+  margin-right: -0.6em;
+}
+
+.key--dsharp {
+  margin-left: -0.6em;
+  margin-right: -1em;
+}
+
+.key--fsharp {
+  margin-left: -1.2em;
+  margin-right: -0.4em;
+}
+
+.key--asharp {
+  margin-left: -0.4em;
+  margin-right: -1.2em;
+}

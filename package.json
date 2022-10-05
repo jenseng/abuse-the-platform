@@ -11,7 +11,8 @@
     "@remix-run/react": "^1.7.2",
     "@remix-run/serve": "^1.7.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tone": "^14.7.77"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.7.2",
