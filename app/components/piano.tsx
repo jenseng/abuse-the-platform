@@ -1,46 +1,33 @@
 import { forwardRef, useEffect, useRef } from "react";
-import type * as Tone from "tone";
-import { getSynth } from "~/utils/instruments.client";
+
+/*
+ * Callouts:
+ *  - buttons
+ *  - autofocus (comes in handy for SSR and forwards/back navigation)
+ */
 
 export function Piano({
   onPlayNote,
-  activeNote,
+  activeNotes = [],
 }: {
   onPlayNote?(note: string, el: HTMLButtonElement): void;
-  activeNote?: string;
+  activeNotes?: string[];
 }) {
   const keysRef = useRef<Record<string, HTMLButtonElement>>({});
-  useEffect(() => {
-    function keyPress(event: KeyboardEvent) {
-      const key = event.key as MappedKeyboardKey;
-      if (key in KeyboardMap && KeyboardMap[key] in keysRef.current) {
-        const el = keysRef.current[KeyboardMap[key]];
-        el.focus();
-        el.click();
-      }
-    }
-    document.body.addEventListener("keypress", keyPress);
-    return () => document.body.removeEventListener("keypress", keyPress);
-  }, []);
 
-  useEffect(() => {
-    if (activeNote) {
-      if (activeNote in keysRef.current) keysRef.current[activeNote].focus();
-    } else if (document.activeElement instanceof HTMLButtonElement) {
-      document.activeElement.blur();
-    }
-  }, [activeNote]);
+  useMappedKeyboardKeys(keysRef);
 
   return (
     <div className="piano">
       {allNotes
-        .filter((_, i) => i >= 24 && i < 64) // just keep the middle notes
+        .filter((_, i) => i >= 24 && i < 64) // just keep the middle notes, 88 is a lot
         .map(({ note, octave }) => (
           <Key
-            key={`${note}${octave}`}
+            key={`${note}${octave}${activeNotes.includes(`${note}${octave}`)}`}
             note={note}
             octave={octave}
             onPlay={onPlayNote}
+            active={activeNotes.includes(`${note}${octave}`)}
             ref={(el: HTMLButtonElement) =>
               (keysRef.current[`${note}${octave}`] = el)
             }
@@ -72,6 +59,24 @@ export const KeyboardMap = {
 } as const;
 type MappedKeyboardKey = keyof typeof KeyboardMap;
 
+// map the middle and top rows of the computer keyboard to the middle piano keys (f => middle C)
+function useMappedKeyboardKeys(
+  keysRef: React.MutableRefObject<Record<string, HTMLButtonElement>>
+) {
+  useEffect(() => {
+    function keyPress(event: KeyboardEvent) {
+      const key = event.key as MappedKeyboardKey;
+      if (key in KeyboardMap && KeyboardMap[key] in keysRef.current) {
+        const el = keysRef.current[KeyboardMap[key]];
+        el.focus();
+        el.click();
+      }
+    }
+    document.body.addEventListener("keypress", keyPress);
+    return () => document.body.removeEventListener("keypress", keyPress);
+  }, [keysRef]);
+}
+
 export const Notes = [
   "a",
   "a#",
@@ -99,9 +104,10 @@ type KeyProps = {
   note: Note;
   octave: number;
   onPlay?(note: string, el: HTMLButtonElement): void;
+  active?: boolean;
 };
 const Key = forwardRef<HTMLButtonElement, KeyProps>(function Key(
-  { note, octave, onPlay },
+  { note, octave, onPlay, active },
   ref
 ) {
   return (
@@ -110,6 +116,7 @@ const Key = forwardRef<HTMLButtonElement, KeyProps>(function Key(
       name="playNote"
       type="submit"
       value={`${note}${octave}`}
+      autoFocus={active}
       className={[
         "key",
         `key--${note.replace("#", "sharp")}`,
@@ -117,16 +124,13 @@ const Key = forwardRef<HTMLButtonElement, KeyProps>(function Key(
       ]
         .filter(Boolean)
         .join(" ")}
-      onClick={(e) =>
-        onPlay?.(`${note}${octave}`, e.target as HTMLButtonElement)
-      }
+      onClick={(e) => {
+        const el = e.target as HTMLButtonElement;
+        onPlay?.(`${note}${octave}`, el);
+        setTimeout(() => {
+          if (document.activeElement === el) el.blur();
+        }, 100);
+      }}
     />
   );
 });
-
-const defaultSynth: Tone.Synth =
-  typeof window != "undefined" ? getSynth() : ({} as any);
-
-export function play(note: string, synth = defaultSynth) {
-  synth.triggerAttackRelease(note, "8n");
-}

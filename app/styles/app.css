@@ -9,6 +9,10 @@ a {
 a:hover {
   text-decoration: underline;
 }
+body {
+  margin: 1em auto;
+  width: 90vw;
+}
 
 .piano {
   display: flex;

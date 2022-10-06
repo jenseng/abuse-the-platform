@@ -1,6 +1,6 @@
 import globby from "globby";
 import * as path from "path";
-import { allNotes } from "~/components/piano";
+import { allNotes } from "~/components/Piano";
 
 export async function getRecordedNotes() {
   return new Set(await globby("*", { cwd: getNotesDirectory() }));

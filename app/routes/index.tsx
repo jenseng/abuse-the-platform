@@ -12,13 +12,19 @@ export function action({ request }: ActionArgs) {
 
 export default function Index() {
   return (
-    <ul>
-      <li>
-        <Link to="/clientSide">Client Side</Link>
-      </li>
-      <li>
-        <Link to="/serverSide">Server Side</Link>
-      </li>
-    </ul>
+    <>
+      <h1>(Ab)use the Platform!</h1>
+      <ul>
+        <li>
+          <Link to="/clientSide">Client-side Piano</Link>
+        </li>
+        <li>
+          <Link to="/progressive">Progressive Piano</Link>
+        </li>
+        <li>
+          <Link to="/multiplayer">Multiplayer Piano</Link>
+        </li>
+      </ul>
+    </>
   );
 }
