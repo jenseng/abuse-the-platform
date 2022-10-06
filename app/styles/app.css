@@ -1,60 +1,85 @@
 * {
   box-sizing: border-box;
-  background: gray;
+  font-family: sans-serif;
+  line-height: 1.4;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 .piano {
   display: flex;
   justify-content: center;
   vertical-align: top;
+  font-size: calc(80vw / 50);
+  margin: auto;
+  padding: 1em;
+  background: gray;
 }
 
 .key {
   background-color: white;
   border: 0;
-  margin: 1px;
+  border-bottom: 0.4em solid #888;
+  margin: 0 1px 0 0;
   padding: 0;
   height: 8em;
   width: 2em;
   flex-grow: 0;
   flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.5);
+  font-size: inherit;
+  border-radius: 0.1em;
 }
 .key:active,
 .key:focus {
   background-color: #cde;
   outline: none;
+  height: calc(8.2em);
+  margin-bottom: -0.2em;
 }
 
 .key--ebony {
   background-color: #111;
-  margin-left: -0.8em;
-  margin-right: -0.8em;
-  width: 1.6em;
+  margin-top: 0;
+  margin-left: -0.6em;
+  margin-right: -0.6em;
+  width: 1.2em;
   height: 5em;
   z-index: 1;
+  border-width: 0 0.1em 0.8em 0.1em;
+  border-color: #000 #444 #666 #444;
+  border-style: solid;
+  outline: 0.1em solid #111;
+  box-shadow: none;
 }
 .key--ebony:active,
 .key--ebony:focus {
   background-color: #234;
+  border-bottom-width: 0.6em;
+  height: 5em;
+  outline: 0.1em solid black;
 }
 
 .key--csharp {
-  margin-left: -1em;
-  margin-right: -0.6em;
+  margin-left: -0.75em;
+  margin-right: -0.45em;
 }
 
 .key--dsharp {
-  margin-left: -0.6em;
-  margin-right: -1em;
+  margin-left: -0.45em;
+  margin-right: -0.75em;
 }
 
 .key--fsharp {
-  margin-left: -1.2em;
-  margin-right: -0.4em;
+  margin-left: -0.9em;
+  margin-right: -0.3em;
 }
 
 .key--asharp {
-  margin-left: -0.4em;
-  margin-right: -1.2em;
+  margin-left: -0.3em;
+  margin-right: -0.9em;
 }

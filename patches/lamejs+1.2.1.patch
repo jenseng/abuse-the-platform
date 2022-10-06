@@ -1,0 +1,90 @@
+diff --git a/node_modules/lamejs/src/js/BitStream.js b/node_modules/lamejs/src/js/BitStream.js
+index dd9d69f..803ef38 100644
+--- a/node_modules/lamejs/src/js/BitStream.js
++++ b/node_modules/lamejs/src/js/BitStream.js
+@@ -114,7 +114,7 @@ function BitStream() {
+             if (bufBitIdx == 0) {
+                 bufBitIdx = 8;
+                 bufByteIdx++;
+-                assert(bufByteIdx < Lame.LAME_MAXMP3BUFFER);
++                assert(bufByteIdx < require('./Lame.js').LAME_MAXMP3BUFFER);
+                 assert(gfc.header[gfc.w_ptr].write_timing >= totbit);
+                 if (gfc.header[gfc.w_ptr].write_timing == totbit) {
+                     putheader_bits(gfc);
+@@ -147,7 +147,7 @@ function BitStream() {
+             if (bufBitIdx == 0) {
+                 bufBitIdx = 8;
+                 bufByteIdx++;
+-                assert(bufByteIdx < Lame.LAME_MAXMP3BUFFER);
++                assert(bufByteIdx < require('./Lame.js').LAME_MAXMP3BUFFER);
+                 buf[bufByteIdx] = 0;
+             }
+ 
+@@ -1009,7 +1009,7 @@ function BitStream() {
+     };
+ 
+     this.init_bit_stream_w = function (gfc) {
+-        buf = new_byte(Lame.LAME_MAXMP3BUFFER);
++        buf = new_byte(require('./Lame.js').LAME_MAXMP3BUFFER);
+ 
+         gfc.h_ptr = gfc.w_ptr = 0;
+         gfc.header[gfc.h_ptr].write_timing = 0;
+diff --git a/node_modules/lamejs/src/js/Encoder.js b/node_modules/lamejs/src/js/Encoder.js
+index 4fea74e..1a05073 100644
+--- a/node_modules/lamejs/src/js/Encoder.js
++++ b/node_modules/lamejs/src/js/Encoder.js
+@@ -1,4 +1,5 @@
+ var common = require('./common.js');
++var MPEGMode = require('./MPEGMode.js');
+ var System = common.System;
+ var VbrMode = common.VbrMode;
+ var Float = common.Float;
+diff --git a/node_modules/lamejs/src/js/Lame.js b/node_modules/lamejs/src/js/Lame.js
+index d2dc7c0..eef7b27 100644
+--- a/node_modules/lamejs/src/js/Lame.js
++++ b/node_modules/lamejs/src/js/Lame.js
+@@ -24,6 +24,7 @@ var CBRNewIterationLoop = require('./CBRNewIterationLoop.js');
+ var BitStream = require('./BitStream.js');
+ var Tables = require('./Tables.js');
+ var Encoder = require('./Encoder.js');
++var MPEGMode = require('./MPEGMode.js');
+ 
+ function Lame() {
+     var self = this;
+diff --git a/node_modules/lamejs/src/js/Presets.js b/node_modules/lamejs/src/js/Presets.js
+index a3de3c6..87567f6 100644
+--- a/node_modules/lamejs/src/js/Presets.js
++++ b/node_modules/lamejs/src/js/Presets.js
+@@ -357,6 +357,7 @@ function Presets() {
+     }
+ 
+     this.apply_preset = function(gfp, preset, enforce) {
++        var Lame = require('./Lame.js');
+         /* translate legacy presets */
+         switch (preset) {
+             case Lame.R3MIX:
+diff --git a/node_modules/lamejs/src/js/PsyModel.js b/node_modules/lamejs/src/js/PsyModel.js
+index e440280..b2a095b 100644
+--- a/node_modules/lamejs/src/js/PsyModel.js
++++ b/node_modules/lamejs/src/js/PsyModel.js
+@@ -157,6 +157,7 @@ var assert = common.assert;
+ 
+ var FFT = require("./FFT.js");
+ var Encoder = require("./Encoder.js");
++var MPEGMode = require('./MPEGMode.js');
+ 
+ function PsyModel() {
+ 
+diff --git a/node_modules/lamejs/src/js/QuantizePVT.js b/node_modules/lamejs/src/js/QuantizePVT.js
+index ef69bef..b9ab2a9 100644
+--- a/node_modules/lamejs/src/js/QuantizePVT.js
++++ b/node_modules/lamejs/src/js/QuantizePVT.js
+@@ -641,7 +641,7 @@ function QuantizePVT() {
+         if (cod_info.block_type != Encoder.SHORT_TYPE) {
+             // NORM, START or STOP type, but not SHORT
+             var k = 576;
+-            while (k-- != 0 && BitStream.EQ(xr[k], 0)) {
++            while (k-- != 0 && require('./BitStream.js').EQ(xr[k], 0)) {
+                 max_nonzero = k;
+             }
+         }
