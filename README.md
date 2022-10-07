@@ -4,7 +4,7 @@
 
 ### a.k. Building a Multiplayer Piano the "Wrong" Way
 
-Let's learn and use web standards in an unconventional way 🥳 ... we're building a Piano you can play with friends. That in and of itself isn't very interesting, but we're going to be using:
+Let's learn and use web standards in an unconventional way 🥳 ... we're building a piano you can play with friends. That in and of itself isn't very interesting, but we're going to be using:
 
 - <a href="https://remix.run">Remix</a>
 - [Forms](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)
@@ -37,3 +37,7 @@ It's true this example is a bit contrived and the `noscript` side of things is a
 4. We get progressive enhancement and `noscript` support basically for free
 
 If this approach works for building a multiplayer piano, then why _not_ do the same for traditional web apps, where it's even easier and the benefits are greater? 🤔
+
+## Screenshot
+
+<img src="public/screenshot.png" alt="Image of Multiplayer Piano">
