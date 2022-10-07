@@ -20,6 +20,10 @@ import { emitter } from "./multiplayer/stream";
  *  - "Works" without JS \o/
  *    - <noscript>
  *    - <meta>
+ *
+ * TODOs
+ *  - Play own notes immediately rather than waiting on the event stream
+ *  - Make it work *before* JavaScript
  */
 
 export type Data = {
@@ -84,9 +88,13 @@ export default function Index() {
   return (
     <>
       <Link to="/">&laquo; Back</Link>
+
       <h2>Multiplayer Piano</h2>
+
+      <p>Jam with your friends, with or without JavaScript.</p>
+
       <fetcher.Form method="post" action={`/multiplayer?since=${timestamp}`}>
-        <Piano activeNotes={notes} />
+        <Piano activeNotes={notes} buster={String(timestamp)} />
       </fetcher.Form>
       <Playback notes={notes} buster={String(timestamp)} />
 

@@ -1,19 +1,39 @@
-# (Ab)use the Platform!
+# Remix Piano Demos
 
-## Building a Multiplayer Piano the "Wrong" Way
+## (Ab)use the Platform
+
+### a.k. Building a Multiplayer Piano the "Wrong" Way
 
 Let's learn and use web standards in an unconventional way 🥳 ... we're building a Piano you can play with friends. That in and of itself isn't very interesting, but we're going to be using:
 
 - <a href="https://remix.run">Remix</a>
-- Forms
-- Web Audio (mostly via Tone.js)
-- `<meta>`, `<progress>` and more
-- Browser history
-- Progressive enhancement
-- Server-sent events
+- [Forms](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)
+- [Web Audio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) (mostly via [Tone.js](https://tonejs.github.io/))
+- [`<meta>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta), [`<progress>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress) and more
+- [Browser history](https://developer.mozilla.org/en-US/docs/Web/API/History)
+- [Progressive enhancement](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement)
+- [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) and [Server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)
+
+In addition to the multiplayer piano, this repo also contains two single-player pianos (client-side only and progressively enhanced).
+
+## Quick Start
+
+- clone the repo
+- run `npm install`
+- run `npm run dev`
+- open your browser to `https://localhost:3000`
+
+You might also need to go into your browser settings to allow sounds for localhost (or whatever host you run this on).
 
 ## But why?
 
-A more conventional approach might be just to require client-side JavaScript and use websockets, or to leverage media streams. Why do it this way?
+A more conventional approach might be just to require client-side JavaScript and use websockets or media streams. Why do it this way?
 
-If you can use Remix to build a progressively enhanced, server-rendered, interactive multiplayer piano that works without JavaScript, _and_ you can do it just as easily as other approaches, then why not do the same for traditional web apps, where the benefits are even greater? 🤔
+It's true this example is a bit contrived and the `noscript` side of things is a little janky. That said:
+
+1. This approach provides the same level of interactivity and peformance as other approaches
+2. This approach ships less code to the browser than other approaches
+3. This approach requires a comparable amount of code to write
+4. We get progressive enhancement and `noscript` support basically for free
+
+If this approach works for building a multiplayer piano, then why _not_ do the same for traditional web apps, where it's even easier and the benefits are greater? 🤔

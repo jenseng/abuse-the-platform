@@ -9,9 +9,11 @@ import { forwardRef, useEffect, useRef } from "react";
 export function Piano({
   onPlayNote,
   activeNotes = [],
+  buster,
 }: {
   onPlayNote?(note: string, el: HTMLButtonElement): void;
   activeNotes?: string[];
+  buster?: string;
 }) {
   const keysRef = useRef<Record<string, HTMLButtonElement>>({});
 
@@ -23,7 +25,9 @@ export function Piano({
         .filter((_, i) => i >= 24 && i < 64) // just keep the middle notes, 88 is a lot
         .map(({ note, octave }) => (
           <Key
-            key={`${note}${octave}${activeNotes.includes(`${note}${octave}`)}`}
+            key={`${note}${octave}${
+              activeNotes.includes(`${note}${octave}`) ? buster : ""
+            }`}
             note={note}
             octave={octave}
             onPlay={onPlayNote}

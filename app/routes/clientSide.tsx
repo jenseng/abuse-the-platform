@@ -13,6 +13,8 @@ export default function Index() {
 
       <h2>Client-side Piano</h2>
 
+      <p>Play by yourself</p>
+
       <Piano onPlayNote={(note) => play(note)} />
     </>
   );

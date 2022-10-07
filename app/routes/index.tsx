@@ -1,13 +1,8 @@
 import styles from "~/styles/app.css";
-import type { ActionArgs } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
-}
-
-export function action({ request }: ActionArgs) {
-  return {};
 }
 
 export default function Index() {

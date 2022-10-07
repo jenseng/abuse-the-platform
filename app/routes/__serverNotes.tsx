@@ -89,7 +89,7 @@ function usePeriodicRerender(delay: number, stopFn: () => boolean) {
         flushSync(() => flush(Math.random()));
         previousRenderTimestamp = timestamp;
       }
-      if (stopFn()) request = requestAnimationFrame(refresh);
+      if (!stopFn()) request = requestAnimationFrame(refresh);
     }
 
     request = requestAnimationFrame(refresh);
