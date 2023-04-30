@@ -3,7 +3,7 @@ import * as Tone from "tone";
 Tone.setContext(new Tone.Context({ lookAhead: 0.1 }));
 
 export function getSynth() {
-  return new Tone.Synth().toDestination();
+  return new Tone.PolySynth().toDestination();
 }
 
 const defaultSynth = getSynth();
