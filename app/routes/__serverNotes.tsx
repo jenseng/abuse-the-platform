@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import type { ShouldReloadFunction } from "@remix-run/react";
+import type { ShouldRevalidateFunction } from "@remix-run/react";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -11,7 +11,7 @@ export async function loader() {
   const missingNotes = await getMissingNotes();
   return json({ missingNotes });
 }
-export const unstable_shouldReload: ShouldReloadFunction = () => false;
+export const shouldRevalidate: ShouldRevalidateFunction = () => false;
 
 /*
  * Callouts:
