@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { Piano } from "~/components/Piano";
+import { Piano } from "~/components/piano";
 import { singleton } from "~/utils/singleton";
 import { Playback } from "../notes/$note";
 import { emitter } from "./multiplayer/stream";

@@ -1,5 +1,5 @@
 import { Form, Link, useSearchParams } from "@remix-run/react";
-import { Piano } from "~/components/Piano";
+import { Piano } from "~/components/piano";
 import { Playback } from "../notes/$note";
 
 /*
