@@ -114,9 +114,18 @@ const Key = forwardRef<HTMLButtonElement, KeyProps>(function Key(
   { note, octave, onPlay, active },
   ref
 ) {
+  const localRef = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    if (localRef.current && document.activeElement === localRef.current)
+      localRef.current.blur();
+  }, []);
   return (
     <button
-      ref={ref}
+      ref={(el) => {
+        localRef.current = el;
+        if (typeof ref === "function") ref(el);
+        else if (ref) ref.current = el;
+      }}
       name="playNote"
       value={`${note}${octave}`}
       autoFocus={active}
