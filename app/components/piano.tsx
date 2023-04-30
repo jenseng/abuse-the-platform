@@ -118,7 +118,6 @@ const Key = forwardRef<HTMLButtonElement, KeyProps>(function Key(
     <button
       ref={ref}
       name="playNote"
-      type="submit"
       value={`${note}${octave}`}
       autoFocus={active}
       className={[
