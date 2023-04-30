@@ -38,8 +38,13 @@ body {
   font-size: inherit;
   border-radius: 0.1em;
 }
+.key:not(:active, :focus) {
+  transition-property: all;
+  transition-delay: 0.1s;
+}
 .key:active,
-.key:focus {
+.key:focus,
+.key--active {
   background-color: #cde;
   outline: none;
   height: calc(8.2em);

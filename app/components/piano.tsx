@@ -132,7 +132,7 @@ const Key = forwardRef<HTMLButtonElement, KeyProps>(function Key(
         onPlay?.(`${note}${octave}`, el);
         setTimeout(() => {
           if (document.activeElement === el) el.blur();
-        }, 100);
+        }, 0);
       }}
     />
   );
