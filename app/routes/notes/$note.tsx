@@ -6,7 +6,7 @@ import {
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
-import { getNotesDirectory } from "~/utils/notes.server";
+import { getNotesDirectory, recordedNote } from "~/utils/notes.server";
 import { useFetcher } from "@remix-run/react";
 import { useRef, useEffect } from "react";
 import { play, getSynth } from "~/utils/instruments.client";
@@ -35,6 +35,7 @@ export async function action({ request, params: { note } }: ActionArgs) {
   );
 
   await unstable_parseMultipartFormData(request, uploadHandler);
+  recordedNote(note);
   return null;
 }
 
