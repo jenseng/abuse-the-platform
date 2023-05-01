@@ -119,6 +119,15 @@ const Key = forwardRef<HTMLButtonElement, KeyProps>(function Key(
     if (localRef.current && document.activeElement === localRef.current)
       localRef.current.blur();
   }, []);
+
+  function onClickOrTouch(e: React.MouseEvent | React.TouchEvent) {
+    const el = e.target as HTMLButtonElement;
+    onPlay?.(`${note}${octave}`, el);
+    setTimeout(() => {
+      if (document.activeElement === el) el.blur();
+    }, 0);
+  }
+
   return (
     <button
       ref={(el) => {
@@ -136,13 +145,10 @@ const Key = forwardRef<HTMLButtonElement, KeyProps>(function Key(
       ]
         .filter(Boolean)
         .join(" ")}
-      onClick={(e) => {
-        const el = e.target as HTMLButtonElement;
-        onPlay?.(`${note}${octave}`, el);
-        setTimeout(() => {
-          if (document.activeElement === el) el.blur();
-        }, 0);
-      }}
+      onClick={(e) =>
+        "ontouchstart" in window ? undefined : onClickOrTouch(e)
+      }
+      onTouchStart={onClickOrTouch}
     />
   );
 });

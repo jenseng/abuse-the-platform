@@ -9,13 +9,14 @@ import {
 import { useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { Piano } from "~/components/piano";
+import { MultiSubmitForm } from "~/components/multiSubmitForm";
 import { singleton } from "~/utils/singleton";
 import { Playback } from "../notes/$note";
 import { emitter } from "./multiplayer/stream";
 
 /*
  * Callouts:
- *  - fetcher.Form
+ *  - fetcher
  *  - EventSource / server-sent events
  *  - "Works" without JS \o/
  *    - <noscript>
@@ -51,7 +52,7 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   if (formData.has("playNote")) {
     const data = {
-      notes: [formData.get("playNote") as string],
+      notes: formData.getAll("playNote") as string[],
       timestamp: Date.now(),
     };
     session.push(data);
@@ -93,9 +94,13 @@ export default function Index() {
 
       <p>Jam with your friends, with or without JavaScript.</p>
 
-      <fetcher.Form method="post" action={`/multiplayer?since=${timestamp}`}>
+      <MultiSubmitForm
+        method="post"
+        action={`/multiplayer?since=${timestamp}`}
+        submit={fetcher.submit}
+      >
         <Piano activeNotes={notes} buster={String(timestamp)} />
-      </fetcher.Form>
+      </MultiSubmitForm>
       <Playback notes={notes} buster={String(timestamp)} />
 
       {!isStreaming && (
