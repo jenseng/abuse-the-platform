@@ -86,7 +86,7 @@ export function Playback({
   buster,
 }: {
   notes: string[];
-  buster: string;
+  buster?: string;
 }) {
   useEffect(() => {
     if (notes.length === 0) playbackMode = "dynamic";

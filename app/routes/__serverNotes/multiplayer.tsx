@@ -1,30 +1,22 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  Link,
-  useActionData,
-  useFetcher,
-  useSearchParams,
-} from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useFetcher } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { Piano } from "~/components/piano";
 import { MultiSubmitForm } from "~/components/multiSubmitForm";
 import { singleton } from "~/utils/singleton";
 import { Playback } from "../notes/$note";
-import { emitter } from "./multiplayer/stream";
+import { streamEmitter } from "./multiplayer/stream";
+import { longPollEmitter } from "./multiplayer/longpoll";
 
 /*
  * Callouts:
  *  - fetcher
  *  - EventSource / server-sent events
  *  - "Works" without JS \o/
- *    - <noscript>
+ *    - <iframe> and long polling
+ *    - <audio>
  *    - <meta>
- *
- * TODOs
- *  - Play own notes immediately rather than waiting on the event stream
- *  - Make it work *before* JavaScript
  */
 
 export type Data = {
@@ -48,7 +40,6 @@ export function getNotes(since: number, until: number) {
 }
 
 export async function action({ request }: ActionArgs) {
-  const query = new URL(request.url).searchParams;
   const formData = await request.formData();
   if (formData.has("playNote")) {
     const data = {
@@ -56,35 +47,17 @@ export async function action({ request }: ActionArgs) {
       timestamp: Date.now(),
     };
     session.push(data);
-    emitter.emit(data);
+    streamEmitter.emit(data);
+    longPollEmitter.emit(data);
   }
-  const now = Date.now();
-  const notes = query.has("since")
-    ? getNotes(parseInt(query.get("since")!), now)
-    : [];
-  // can we exclude our own notes from the stream?
-  return json<Data>({ notes, timestamp: now });
+  return json({});
 }
-
-export async function loader({ request }: LoaderArgs) {
-  const query = new URL(request.url).searchParams;
-  const now = Date.now();
-  // can we exclude our own notes from the response?
-  const notes = query.has("since")
-    ? getNotes(parseInt(query.get("since")!), now)
-    : [];
-  return json<Data>({ notes: notes, timestamp: now });
-}
-
-// if hydration doesn't happen before this point, we'll start polling
-const POLL_DELAY = 5;
-const POLL_FREQUENCY = 0.5;
 
 export default function Index() {
-  const { notes, timestamp, isStreaming } = useNotesData();
-
   const fetcher = useFetcher();
-  const [query] = useSearchParams();
+  const isHydrated = useIsHydrated();
+  const { notes, timestamp } =
+    useEventStream<Data>("/multiplayer/stream") ?? {};
 
   return (
     <>
@@ -96,41 +69,34 @@ export default function Index() {
 
       <MultiSubmitForm
         method="post"
-        action={`/multiplayer?since=${timestamp}`}
         submit={fetcher.submit}
+        target="longpollPost"
+        action="/multiplayer?_data"
       >
         <Piano activeNotes={notes} buster={String(timestamp)} />
       </MultiSubmitForm>
-      <Playback notes={notes} buster={String(timestamp)} />
 
-      {!isStreaming && (
+      {isHydrated ? (
+        <Playback notes={notes ?? []} buster={String(timestamp)} />
+      ) : (
         <>
-          <noscript>
-            {/* TODO: figure out if we can make this work *before* JS; the tricky thing is that once you add a meta
-                        refresh el to the DOM, the refresh can't be canceled
-                */}
-            <meta
-              httpEquiv="refresh"
-              content={`${
-                query.has("since") ? POLL_FREQUENCY : POLL_DELAY
-              };URL='${`/multiplayer?since=${timestamp}`}'`}
-            />
-          </noscript>
+          <LongPollPlayback />
+          <iframe
+            style={{ position: "absolute", visibility: "hidden" }}
+            src="about:blank"
+            name="longpollPost"
+            title="🙈"
+          ></iframe>
         </>
       )}
     </>
   );
 }
 
-function useNotesData() {
-  const loaderData = useLoaderData<Data>();
-  const actionData = useActionData<Data>();
-  const streamData = useEventStream<Data>("/multiplayer/stream");
-
-  const [isStreaming, setIsStreaming] = useState(false);
-  useEffect(() => setIsStreaming(true), []);
-
-  return { ...(streamData ?? actionData ?? loaderData), isStreaming };
+function useIsHydrated() {
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => setIsHydrated(true), []);
+  return isHydrated;
 }
 
 // H/T https://twitter.com/ryanflorence/status/1533437211714080768
@@ -148,4 +114,16 @@ function useEventStream<T>(href: string) {
     };
   }, [href]);
   return data;
+}
+
+function LongPollPlayback() {
+  return (
+    <iframe
+      style={{ position: "absolute", visibility: "hidden" }}
+      name="longpoll"
+      src="/multiplayer/longpoll?_data"
+      allow="autoplay"
+      title="🙈"
+    ></iframe>
+  );
 }

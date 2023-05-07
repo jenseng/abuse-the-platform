@@ -3,16 +3,16 @@ import { Emitter } from "~/utils/emitter";
 import { singleton } from "~/utils/singleton";
 import type { Data } from "../multiplayer";
 
-export const emitter = singleton("emitter", new Emitter<Data>());
+export const streamEmitter = singleton("streamEmitter", new Emitter<Data>());
 
 export async function loader({ request }: LoaderArgs) {
   return eventStream(request, (send) => {
     function handleEvent(data: Data) {
       send("playNotes", JSON.stringify(data));
     }
-    emitter.addListener(handleEvent);
+    streamEmitter.addListener(handleEvent);
     return () => {
-      emitter.removeListener(handleEvent);
+      streamEmitter.removeListener(handleEvent);
     };
   });
 }
