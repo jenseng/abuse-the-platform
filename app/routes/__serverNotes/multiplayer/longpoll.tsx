@@ -1,4 +1,5 @@
 import type { LoaderArgs } from "@remix-run/node";
+import { getNoteURI } from "~/routes/notes/$note";
 import { Emitter } from "~/utils/emitter";
 import { singleton } from "~/utils/singleton";
 import type { Data } from "../multiplayer";
@@ -11,6 +12,30 @@ export const longPollEmitter = singleton(
 
 export async function loader({ request }: LoaderArgs) {
   return longPollAudio(request, (send, close) => {
+    function sendNotes(notes: string[] = []) {
+      for (const note of notes) {
+        send(
+          `<audio autoplay src="${getNoteURI(
+            note,
+            String(request.headers.get("host"))
+          )}"></audio>`
+        );
+      }
+    }
+
+    const query = new URL(request.url).searchParams;
+
+    // play anything that came between the end of the previous long-poll and now
+    if (query.has("since")) {
+      const now = Date.now();
+      sendNotes(getNotes(parseInt(query.get("since")!), now));
+    }
+    // play new notes that come along
+    function handleEvent(data: Data) {
+      sendNotes(data.notes);
+    }
+    longPollEmitter.addListener(handleEvent);
+
     let active = true;
     setTimeout(() => {
       if (active) {
@@ -21,26 +46,6 @@ export async function loader({ request }: LoaderArgs) {
       }
     }, 60_000);
 
-    const query = new URL(request.url).searchParams;
-    const now = Date.now();
-
-    // play anything that came between the end of the previous long-poll and now
-    if (query.has("since")) {
-      for (const note of getNotes(parseInt(query.get("since")!), now)) {
-        send(
-          `<audio autoplay src="/notes/${encodeURIComponent(note)}"></audio>`
-        );
-      }
-    }
-    // play new notes that come along
-    function handleEvent(data: Data) {
-      for (const note of data.notes) {
-        send(
-          `<audio autoplay src="/notes/${encodeURIComponent(note)}"></audio>`
-        );
-      }
-    }
-    longPollEmitter.addListener(handleEvent);
     return () => {
       active = false;
       longPollEmitter.removeListener(handleEvent);

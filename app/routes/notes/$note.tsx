@@ -7,7 +7,7 @@ import {
 } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
 import { getNotesDirectory, recordedNote } from "~/utils/notes.server";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useRouteLoaderData } from "@remix-run/react";
 import { useRef, useEffect } from "react";
 import { play, getSynth } from "~/utils/instruments.client";
 import { audioBufferToMp3 } from "~/utils/transforms";
@@ -92,6 +92,10 @@ export function Playback({
     if (notes.length === 0) playbackMode = "dynamic";
   }, [notes.length]);
 
+  const { host } = (useRouteLoaderData("root") ?? {}) as unknown as {
+    host: string;
+  };
+
   const currentPlayback = useRef<string>();
   if (playbackMode === "dynamic") {
     if (currentPlayback.current !== buster) {
@@ -106,10 +110,18 @@ export function Playback({
           <audio
             key={`${note}${buster}`}
             autoPlay={true}
-            src={`/notes/${encodeURIComponent(note)}`}
+            src={getNoteURI(note, host)}
           />
         ))}
       </>
     );
   }
+}
+
+export function getNoteURI(note: string, host?: string) {
+  const base =
+    host && process.env.NODE_ENV === "production"
+      ? `//${host.replace(/:\d+$/, "")}:3001`
+      : "";
+  return `${base}/notes/${encodeURIComponent(note)}`;
 }
