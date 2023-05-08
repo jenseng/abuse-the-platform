@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import styles from "~/styles/app.css";
+import { Rickord } from "~/components/rickord";
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
@@ -31,6 +32,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <Rickord />
       </body>
     </html>
   );

@@ -92,3 +92,17 @@ body {
   margin-left: -0.3em;
   margin-right: -0.9em;
 }
+
+.rickord {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 0;
+  padding: 0;
+  opacity: 0.1;
+  background: transparent;
+}
+
+.rickord:hover {
+  opacity: 1;
+}
