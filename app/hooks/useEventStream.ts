@@ -12,6 +12,7 @@ export function useEventStream<T>(href: string) {
     }
     return () => {
       eventSource.removeEventListener("playNotes", handler);
+      eventSource.close();
     };
   }, [href]);
   return data;
