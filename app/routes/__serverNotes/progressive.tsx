@@ -18,6 +18,7 @@ export default function Index() {
       <Link to="/">&laquo; Back</Link>
 
       <h2>Progressive Piano</h2>
+
       <p>
         Play by yourself, with or without JavaScript. "Record" a song with your
         browser history.

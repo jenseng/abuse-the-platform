@@ -9,9 +9,19 @@ a {
 a:hover {
   text-decoration: underline;
 }
+html {
+  margin: 0;
+  padding: 0;
+}
 body {
+  padding: 0;
   margin: 1em auto;
   width: 90vw;
+}
+body.iframe {
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
 .piano {
@@ -91,6 +101,16 @@ body {
 .key--asharp {
   margin-left: -0.3em;
   margin-right: -0.9em;
+}
+
+.timeline g {
+  animation: slide 10s linear forwards;
+}
+
+@keyframes slide {
+  to {
+    transform: translate(-10000px, 0);
+  }
 }
 
 .rickord {

@@ -1,6 +1,7 @@
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useFetcher } from "@remix-run/react";
+import type { ShouldRevalidateFunction } from "@remix-run/react";
+import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { Piano } from "~/components/piano";
 import { MultiSubmitForm } from "~/components/multiSubmitForm";
@@ -8,6 +9,7 @@ import { singleton } from "~/utils/singleton";
 import { Playback } from "../notes/$note";
 import { streamEmitter } from "./multiplayer/stream";
 import { longPollEmitter } from "./multiplayer/longpoll";
+import { NoteViz } from "~/components/noteViz";
 
 /*
  * Callouts:
@@ -23,20 +25,27 @@ export type Data = {
   notes: string[];
   timestamp: number;
 };
+// "session" in the sense of a "jam session" where musicians are playing together :)
 const session: Data[] = singleton("session", []);
 
 export function getNotes(since: number, until: number) {
   // TODO: rather than discard old stuff, have the ability to rewind/replay,
   // in which case the linear filtering is not ideal
-  const cutoff = session.findIndex(
-    ({ timestamp }) => timestamp >= Date.now() - 10_000
-  );
-  if (cutoff > 0) session.splice(0, cutoff);
-
   return session
     .filter(({ timestamp }) => timestamp > since && timestamp <= until)
     .map(({ notes }) => notes)
     .flat();
+}
+
+// just keep a sliding window of recent notes
+export const SESSION_LENGTH = 10_000;
+
+export function truncateSession(session: Data[]) {
+  const cutoffMs = Date.now() - SESSION_LENGTH;
+  let cutoff = 0;
+  while (session[cutoff] && session[cutoff].timestamp < cutoffMs) cutoff++;
+  if (cutoff > 0) session.splice(0, cutoff);
+  return session;
 }
 
 export async function action({ request }: ActionArgs) {
@@ -46,6 +55,7 @@ export async function action({ request }: ActionArgs) {
       notes: formData.getAll("playNote") as string[],
       timestamp: Date.now(),
     };
+    truncateSession(session);
     session.push(data);
     streamEmitter.emit(data);
     longPollEmitter.emit(data);
@@ -53,41 +63,57 @@ export async function action({ request }: ActionArgs) {
   return json({});
 }
 
+export async function loader() {
+  return json({ initialData: session });
+}
+
+export const shouldRevalidate: ShouldRevalidateFunction = () => false;
+
 export default function Index() {
   const fetcher = useFetcher();
+  const { initialData } = useLoaderData<typeof loader>();
+  const currentData = useEventStream<Data>("/multiplayer/stream");
+  const { notes, timestamp } = currentData ?? {};
+  const buster = String(timestamp);
   const isHydrated = useIsHydrated();
-  const { notes, timestamp } =
-    useEventStream<Data>("/multiplayer/stream") ?? {};
 
   return (
     <>
       <Link to="/">&laquo; Back</Link>
 
       <h2>Multiplayer Piano</h2>
-
       <p>Jam with your friends, with or without JavaScript.</p>
 
       <MultiSubmitForm
         method="post"
         submit={fetcher.submit}
-        target="longpollPost"
+        // these will only be used before/without JavaScript
+        target={longPollPost}
         action="/multiplayer?_data"
       >
-        <Piano activeNotes={notes} buster={String(timestamp)} />
+        <Piano activeNotes={notes} buster={buster} />
       </MultiSubmitForm>
 
       {isHydrated ? (
-        <Playback notes={notes ?? []} buster={String(timestamp)} />
+        <Playback notes={notes} buster={buster} />
       ) : (
         <>
           <LongPollPlayback />
-          <iframe
-            style={{ position: "absolute", visibility: "hidden" }}
-            src="about:blank"
-            name="longpollPost"
-            title="🙈"
-          ></iframe>
         </>
+      )}
+
+      {isHydrated ? (
+        <NoteViz
+          initialData={initialData}
+          currentData={currentData}
+          windowSize={SESSION_LENGTH}
+        />
+      ) : (
+        <iframe
+          src="/multiplayer/noteViz?iframe"
+          style={{ width: "100%", height: 160, border: 0 }}
+          title="😂"
+        ></iframe>
       )}
     </>
   );
@@ -116,14 +142,25 @@ function useEventStream<T>(href: string) {
   return data;
 }
 
+const longPollPost = "longpollPost";
 function LongPollPlayback() {
   return (
-    <iframe
-      style={{ position: "absolute", visibility: "hidden" }}
-      name="longpoll"
-      src="/multiplayer/longpoll?_data"
-      allow="autoplay"
-      title="🙈"
-    ></iframe>
+    <>
+      {/* long poll iframe that renders <audio> elements */}
+      <iframe
+        style={{ position: "absolute", visibility: "hidden" }}
+        name="longpoll"
+        src="/multiplayer/longpoll?_data"
+        allow="autoplay"
+        title="🙈"
+      ></iframe>
+      {/* form target for when we play a note, so we don't refresh the page */}
+      <iframe
+        style={{ position: "absolute", visibility: "hidden" }}
+        src="about:blank"
+        name={longPollPost}
+        title="🙈"
+      ></iframe>
+    </>
   );
 }

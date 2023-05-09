@@ -82,10 +82,10 @@ let playbackMode: "dynamic" | "static" = "static";
  * Play the given note(s), either via <audio> elements or imperatively (depending on capabilities)
  */
 export function Playback({
-  notes,
+  notes = [],
   buster,
 }: {
-  notes: string[];
+  notes?: string[];
   buster?: string;
 }) {
   useEffect(() => {

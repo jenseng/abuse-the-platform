@@ -103,6 +103,9 @@ export const allNotes = Array(88)
     note: Notes[i % 12],
     octave: Math.floor((i + 9) / 12),
   }));
+export const noteIndices = Object.fromEntries(
+  allNotes.map(({ note, octave }, i) => [`${note}${octave}`, i])
+);
 
 type KeyProps = {
   note: Note;

@@ -5,7 +5,7 @@ import { useFetcher } from "@remix-run/react";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { flushSync } from "react-dom";
+import { usePeriodicRerender } from "~/hooks/usePeriodicRerender";
 import { getMissingNotes } from "~/utils/notes.server";
 import { RecordMissingNote } from "./notes/$note";
 
@@ -34,7 +34,7 @@ export default function ServerNotes() {
     return Math.round(progress.current) === missingNotes.length;
   }
 
-  usePeriodicRerender(100, () => isDone());
+  usePeriodicRerender(100, isDone);
   if (isDone()) {
     return (
       <div>
@@ -105,22 +105,3 @@ function YassScript({ children }: PropsWithChildren) {
 }
 const useYoloLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
-
-function usePeriodicRerender(delay: number, stopFn: () => boolean) {
-  const [, flush] = useState<number>();
-  useEffect(() => {
-    let request: number;
-    let previousRenderTimestamp = 0;
-    function refresh(timestamp: number) {
-      if (timestamp - previousRenderTimestamp >= delay) {
-        flushSync(() => flush(Math.random()));
-        previousRenderTimestamp = timestamp;
-      }
-      if (!stopFn()) request = requestAnimationFrame(refresh);
-    }
-
-    request = requestAnimationFrame(refresh);
-    return () => cancelAnimationFrame(request);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delay]);
-}

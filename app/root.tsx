@@ -7,6 +7,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useSearchParams,
 } from "@remix-run/react";
 import styles from "~/styles/app.css";
 import { Rickord } from "~/components/rickord";
@@ -26,13 +27,14 @@ export const loader = ({ request }: LoaderArgs) => {
 };
 
 export default function App() {
+  const [query] = useSearchParams();
   return (
     <html lang="en">
       <head>
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className={query.has("iframe") ? "iframe" : ""}>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
