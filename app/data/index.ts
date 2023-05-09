@@ -20,12 +20,16 @@ export function getNotes(since: number, until: number) {
 }
 
 export function pushNotes(notes: string[]) {
-  const data = {
-    notes,
-    timestamp: Date.now(),
-  };
+  const timestamp = Date.now();
+  const data = { notes, timestamp };
   truncateSession(session);
-  session.push(data);
+  if (session[session.length - 1].timestamp === timestamp) {
+    session[session.length - 1].notes = Array.from(
+      new Set([...session[session.length - 1].notes, ...notes])
+    );
+  } else {
+    session.push(data);
+  }
   streamEmitter.emit(data);
   longPollEmitter.emit(data);
 }
