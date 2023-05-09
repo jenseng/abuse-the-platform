@@ -15,13 +15,24 @@ html {
 }
 body {
   padding: 0;
-  margin: 1em auto;
+  margin: 3em auto;
   width: 90vw;
 }
 body.iframe {
   padding: 0;
   margin: 0;
   width: 100%;
+}
+
+h1 {
+  margin: 1em 0 0 0;
+  border-bottom: 1px solid #888;
+}
+
+h2 {
+  margin: 0 0 1em;
+  font-style: italic;
+  font-weight: normal;
 }
 
 .piano {
@@ -111,6 +122,15 @@ body.iframe {
   to {
     transform: translate(-10000px, 0);
   }
+}
+
+.back-link {
+  position: absolute;
+  top: 0.5em;
+}
+
+.back-link::before {
+  content: "« ";
 }
 
 .rickord {

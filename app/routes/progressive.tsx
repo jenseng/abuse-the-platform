@@ -73,7 +73,7 @@ export default function Index() {
         <h2>Hang Tight!</h2>
         <p>
           In order to support a JavaScript-less experience, we're using your
-          browser to record some sample for everyone. Thanks! 🙏
+          browser to record some samples for everyone. Thanks! 🙏
         </p>
       </YassScript>
 

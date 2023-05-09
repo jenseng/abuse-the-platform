@@ -23,7 +23,7 @@ export function pushNotes(notes: string[]) {
   const timestamp = Date.now();
   const data = { notes, timestamp };
   truncateSession(session);
-  if (session[session.length - 1].timestamp === timestamp) {
+  if (session[session.length - 1]?.timestamp === timestamp) {
     session[session.length - 1].notes = Array.from(
       new Set([...session[session.length - 1].notes, ...notes])
     );

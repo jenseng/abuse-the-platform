@@ -44,10 +44,19 @@ export default function Index() {
 
   return (
     <>
-      <Link to="/">&laquo; Back</Link>
+      <Link to="/" className="back-link">
+        Back
+      </Link>
 
-      <h2>Client-side Multiplayer Piano</h2>
-      <p>Jam with your friends with JavaScript.</p>
+      <h1>Multiplayer Client-side Piano</h1>
+      <h2>Jam with your friends with JavaScript</h2>
+      <ul>
+        <li>✅ Web-based musical instrument</li>
+        <li>✅ Multiple players</li>
+        <li>✅ Real-time visualizations</li>
+        <li>🚧 Recording and playback</li>
+        <li>❌ "Works" without/before JavaScript</li>
+      </ul>
 
       <MultiSubmitForm method="post" submit={fetcher.submit}>
         <Piano activeNotes={notes} buster={buster} />

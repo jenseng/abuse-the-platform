@@ -15,13 +15,22 @@ export default function Index() {
   const buster = query.get("buster") ?? "";
   return (
     <>
-      <Link to="/">&laquo; Back</Link>
+      <Link to="/" className="back-link">
+        Back
+      </Link>
 
-      <h2>Progressive Single-player Piano</h2>
-      <p>
+      <h1>Single-player Progressive Piano</h1>
+      <h2>
         Play by yourself, with or without JavaScript. "Record" a song with your
         browser history.
-      </p>
+      </h2>
+      <ul>
+        <li>✅ Web-based musical instrument</li>
+        <li>✅ Recording and playback</li>
+        <li>✅ "Works" without/before JavaScript</li>
+        <li>❌ Multiple players</li>
+        <li>❌ Real-time visualizations</li>
+      </ul>
 
       <MultiSubmitForm>
         <Piano activeNotes={playNotes} buster={buster} />

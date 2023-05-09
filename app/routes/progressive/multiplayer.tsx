@@ -49,10 +49,19 @@ export default function Index() {
 
   return (
     <>
-      <Link to="/">&laquo; Back</Link>
+      <Link to="/" className="back-link">
+        Back
+      </Link>
 
-      <h2>Progressive Multiplayer Piano</h2>
-      <p>Jam with your friends, with or without JavaScript.</p>
+      <h1>Multiplayer Progressive Piano</h1>
+      <h2>Jam with your friends, with or without JavaScript</h2>
+      <ul>
+        <li>✅ Web-based musical instrument</li>
+        <li>✅ Multiple players</li>
+        <li>✅ Real-time visualizations</li>
+        <li>✅ "Works" without/before JavaScript</li>
+        <li>🚧 Recording and playback</li>
+      </ul>
 
       <MultiSubmitForm
         method="post"

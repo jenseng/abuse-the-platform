@@ -9,28 +9,35 @@ export default function Index() {
   return (
     <>
       <h1>(Ab)use the Platform!</h1>
+      <h2>a.k.a. Building a Multiplayer Piano the "Wrong" Way</h2>
       <ul>
         <li>
-          <b>Single Player Pianos</b>
-          <ul>
-            <li>
-              <Link to="/clientSide/singlePlayer">Client-side</Link>
-            </li>
-            <li>
-              <Link to="/progressive/singlePlayer">Progressive</Link>
-            </li>
-          </ul>
+          🌑🌑🌑🌑🌑 <Link to="/noOp">No-op Piano</Link>
         </li>
         <li>
-          <b>Multiplayer Pianos</b>
-          <ul>
-            <li>
-              <Link to="/clientSide/multiplayer">Client-side</Link>
-            </li>
-            <li>
-              <Link to="/progressive/multiplayer">Progressive</Link>
-            </li>
-          </ul>
+          🌕🌑🌑🌑🌑{" "}
+          <Link to="/clientSide/singlePlayer">
+            Single Player Client-side Piano
+          </Link>
+        </li>
+        <li>
+          🌕🌕🌕🌑🌑{" "}
+          <Link to="/progressive/singlePlayer">
+            Single Player Progressive Piano
+          </Link>
+        </li>
+        <li>
+          🌕🌕🌕🌗🌑{" "}
+          <Link to="/clientSide/multiplayer">
+            Multiplayer Client-side Piano
+          </Link>
+        </li>
+        <li>
+          🌕🌕🌕🌕🌗{" "}
+          <Link to="/progressive/multiplayer">
+            Multiplayer Progressive Piano
+          </Link>{" "}
+          🥳
         </li>
       </ul>
     </>

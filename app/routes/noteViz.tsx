@@ -17,7 +17,7 @@ export default function Index() {
   return (
     <>
       <NoteViz initialData={initialData} windowSize={SESSION_LENGTH} />
-      <meta http-equiv="refresh" content="1;URL=/noteViz?iframe" />
+      <meta httpEquiv="refresh" content="1;URL=/noteViz?iframe" />
     </>
   );
 }
