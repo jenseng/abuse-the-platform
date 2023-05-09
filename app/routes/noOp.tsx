@@ -1,10 +1,6 @@
 import { Link } from "@remix-run/react";
 import { Piano } from "~/components/piano";
 
-/*
- * Callouts:
- *  - Web Audio, Tone.js
- */
 export default function Index() {
   return (
     <>

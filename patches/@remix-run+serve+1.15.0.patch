@@ -1,0 +1,12 @@
+diff --git a/node_modules/@remix-run/serve/dist/index.js b/node_modules/@remix-run/serve/dist/index.js
+index 470b7ca..51ddd67 100644
+--- a/node_modules/@remix-run/serve/dist/index.js
++++ b/node_modules/@remix-run/serve/dist/index.js
+@@ -27,6 +27,7 @@ function createApp(buildPath, mode = "production", publicPath = "/build/", asset
+   let app = express__default["default"]();
+   app.disable("x-powered-by");
+   app.use(compression__default["default"]());
++  app.use((req, res, next) => { res.set("Access-Control-Allow-Origin", "*"); next(); })
+   app.use(publicPath, express__default["default"].static(assetsBuildDirectory, {
+     immutable: true,
+     maxAge: "1y"
