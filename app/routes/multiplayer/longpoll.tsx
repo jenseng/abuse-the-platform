@@ -1,8 +1,8 @@
 import type { LoaderArgs } from "@remix-run/node";
-import { getNoteURI } from "~/components/playback";
 import type { Data } from "~/data";
 import { getNotes } from "~/data";
 import { Emitter } from "~/utils/emitter";
+import { getAssetHost } from "~/utils/notes.server";
 import { singleton } from "~/utils/singleton";
 
 export const longPollEmitter = singleton(
@@ -15,10 +15,9 @@ export async function loader({ request }: LoaderArgs) {
     function sendNotes(notes: string[] = []) {
       for (const note of notes) {
         send(
-          `<audio autoplay src="${getNoteURI(
-            note,
-            String(request.headers.get("host"))
-          )}"></audio>`
+          `<audio autoplay src="//${getAssetHost(
+            request
+          )}/notes/${encodeURIComponent(note)}"></audio>`
         );
       }
     }

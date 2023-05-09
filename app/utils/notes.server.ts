@@ -31,3 +31,7 @@ export async function getMissingNotes() {
 export function getNotesDirectory() {
   return path.join(process.cwd(), "public/notes");
 }
+
+export function getAssetHost(request: Request) {
+  return String(process.env.ASSET_HOST ?? request.headers.get("host"));
+}

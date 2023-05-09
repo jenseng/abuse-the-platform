@@ -6,6 +6,7 @@ import { Outlet, useLoaderData } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePeriodicRerender } from "~/hooks/usePeriodicRerender";
+import { useRootLoaderData } from "~/hooks/useRootLoaderData";
 import { getMissingNotes } from "~/utils/notes.server";
 import { RecordMissingNote } from "./notes/$note";
 
@@ -27,7 +28,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({ formAction }) =>
  *  - full stack component and a resource route
  */
 export default function Index() {
-  const { missingNotes, isAdmin } = useLoaderData<typeof loader>();
+  const { missingNotes } = useLoaderData<typeof loader>();
+  const { isAdmin } = useRootLoaderData();
   const progress = useRef(0);
   const fetcher = useFetcher();
   function isDone() {

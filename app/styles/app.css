@@ -126,7 +126,7 @@ h2 {
 
 .back-link {
   position: absolute;
-  top: 0.5em;
+  top: 1em;
 }
 
 .back-link::before {

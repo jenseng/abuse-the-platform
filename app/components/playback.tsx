@@ -18,8 +18,8 @@ export function Playback({
     if (notes.length === 0) playbackMode = "dynamic";
   }, [notes.length]);
 
-  const { host } = (useRouteLoaderData("root") ?? {}) as unknown as {
-    host: string;
+  const { assetHost } = (useRouteLoaderData("root") ?? {}) as unknown as {
+    assetHost: string;
   };
 
   const currentPlayback = useRef<string>();
@@ -36,18 +36,10 @@ export function Playback({
           <audio
             key={`${note}${buster}`}
             autoPlay={true}
-            src={getNoteURI(note, host)}
+            src={`//${assetHost}/notes/${encodeURIComponent(note)}`}
           />
         ))}
       </>
     );
   }
-}
-
-export function getNoteURI(note: string, host?: string) {
-  const base =
-    host && process.env.NODE_ENV === "production"
-      ? `//${host.replace(/:\d+$/, "")}:3001`
-      : "";
-  return `${base}/notes/${encodeURIComponent(note)}`;
 }
