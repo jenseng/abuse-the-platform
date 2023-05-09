@@ -34,7 +34,7 @@ It's true this example is a bit contrived and the no-JS side of things is a litt
 1. This approach provides the same level of interactivity and peformance as other approaches
 2. This approach ships less code to the browser than other approaches
 3. This approach requires a comparable amount of code to write
-4. We get progressive enhancement with minimal effort for free
+4. We get progressive enhancement with minimal effort
 
 If this approach works for building a multiplayer piano, then why _not_ do the same for traditional web apps, where it's even easier and the benefits are greater? 🤔
 
