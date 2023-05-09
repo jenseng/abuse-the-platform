@@ -26,7 +26,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({ formAction }) =>
  *  - requestAnimationFrame
  *  - full stack component and a resource route
  */
-export default function ServerNotes() {
+export default function Index() {
   const { missingNotes, isAdmin } = useLoaderData<typeof loader>();
   const progress = useRef(0);
   const fetcher = useFetcher();

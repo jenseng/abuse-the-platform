@@ -1,9 +1,9 @@
 import type { LoaderArgs } from "@remix-run/node";
-import { getNoteURI } from "~/routes/notes/$note";
+import { getNoteURI } from "~/components/playback";
+import type { Data } from "~/data";
+import { getNotes } from "~/data";
 import { Emitter } from "~/utils/emitter";
 import { singleton } from "~/utils/singleton";
-import type { Data } from "../multiplayer";
-import { getNotes } from "../multiplayer";
 
 export const longPollEmitter = singleton(
   "longPollEmitter",

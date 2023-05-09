@@ -1,5 +1,6 @@
 import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import type { ShouldRevalidateFunction } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -21,6 +22,8 @@ export const meta: MetaFunction = () => ({
   title: "Remix Piano 🎹",
   viewport: "width=device-width,initial-scale=1",
 });
+
+export const shouldRevalidate: ShouldRevalidateFunction = () => false;
 
 export const loader = ({ request }: LoaderArgs) => {
   return json({ host: String(request.headers.get("host")) });

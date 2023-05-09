@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from "@remix-run/react";
 import { MultiSubmitForm } from "~/components/multiSubmitForm";
 import { Piano } from "~/components/piano";
-import { Playback } from "../notes/$note";
+import { Playback } from "~/components/playback";
 
 /*
  * Callouts:
@@ -17,8 +17,7 @@ export default function Index() {
     <>
       <Link to="/">&laquo; Back</Link>
 
-      <h2>Progressive Piano</h2>
-
+      <h2>Progressive Single-player Piano</h2>
       <p>
         Play by yourself, with or without JavaScript. "Record" a song with your
         browser history.

@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import { useRef } from "react";
+import type { Data } from "~/data";
+import { truncateSession } from "~/data";
 import { usePeriodicRerender } from "~/hooks/usePeriodicRerender";
-import type { Data } from "~/routes/__serverNotes/multiplayer";
-import { truncateSession } from "~/routes/__serverNotes/multiplayer";
 import { noteIndices } from "./piano";
 
 export function NoteViz({

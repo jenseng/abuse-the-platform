@@ -11,8 +11,7 @@ export default function Index() {
     <>
       <Link to="/">&laquo; Back</Link>
 
-      <h2>Client-side Piano</h2>
-
+      <h2>Client-side Single-player Piano</h2>
       <p>Play by yourself</p>
 
       <Piano onPlayNote={(note) => play(note)} />

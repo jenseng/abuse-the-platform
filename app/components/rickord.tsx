@@ -3,7 +3,7 @@ import { useLocation } from "@remix-run/react";
 // easter egg to pre-record a special song
 export function Rickord() {
   const location = useLocation();
-  if (location.pathname !== "/progressive") return null;
+  if (location.pathname !== "/progressive/singlePlayer") return null;
   return (
     <button
       className="rickord"

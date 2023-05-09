@@ -11,13 +11,26 @@ export default function Index() {
       <h1>(Ab)use the Platform!</h1>
       <ul>
         <li>
-          <Link to="/clientSide">Client-side Piano</Link>
+          <b>Single Player Pianos</b>
+          <ul>
+            <li>
+              <Link to="/clientSide/singlePlayer">Client-side</Link>
+            </li>
+            <li>
+              <Link to="/progressive/singlePlayer">Progressive</Link>
+            </li>
+          </ul>
         </li>
         <li>
-          <Link to="/progressive">Progressive Piano</Link>
-        </li>
-        <li>
-          <Link to="/multiplayer">Multiplayer Piano</Link>
+          <b>Multiplayer Pianos</b>
+          <ul>
+            <li>
+              <Link to="/clientSide/multiplayer">Client-side</Link>
+            </li>
+            <li>
+              <Link to="/progressive/multiplayer">Progressive</Link>
+            </li>
+          </ul>
         </li>
       </ul>
     </>

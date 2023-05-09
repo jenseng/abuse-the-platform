@@ -1,7 +1,7 @@
 import type { LoaderArgs } from "@remix-run/node";
+import type { Data } from "~/data";
 import { Emitter } from "~/utils/emitter";
 import { singleton } from "~/utils/singleton";
-import type { Data } from "../multiplayer";
 
 export const streamEmitter = singleton("streamEmitter", new Emitter<Data>());
 
