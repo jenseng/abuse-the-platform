@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 import { Piano } from "~/components/piano";
+import { VolumeSlider } from "~/components/volumeSlider";
 import { play } from "~/utils/instruments.client";
 
 /*
@@ -15,6 +16,7 @@ export default function Index() {
 
       <h1>Single-player Client-side Piano</h1>
       <h2>Play by yourself</h2>
+      <VolumeSlider />
       <ul>
         <li>✅ Web-based musical instrument</li>
         <li>❌ Recording and playback</li>

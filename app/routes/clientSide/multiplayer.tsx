@@ -10,6 +10,7 @@ import { pushNotes } from "~/data";
 import { session, SESSION_LENGTH } from "~/data";
 import { useEventStream } from "~/hooks/useEventStream";
 import { Playback } from "~/components/playback";
+import { VolumeSlider } from "~/components/volumeSlider";
 
 /*
  * Callouts:
@@ -50,6 +51,7 @@ export default function Index() {
 
       <h1>Multiplayer Client-side Piano</h1>
       <h2>Jam with your friends with JavaScript</h2>
+      <VolumeSlider />
       <ul>
         <li>✅ Web-based musical instrument</li>
         <li>✅ Multiple players</li>

@@ -6,7 +6,7 @@ export function getSynth() {
   return new Tone.PolySynth().toDestination();
 }
 
-const defaultSynth = getSynth();
+export const defaultSynth = getSynth();
 export function play(note: string, synth = defaultSynth) {
   synth.triggerAttackRelease(note, "8n");
 }

@@ -2,6 +2,7 @@ import { Link, useSearchParams } from "@remix-run/react";
 import { MultiSubmitForm } from "~/components/multiSubmitForm";
 import { Piano } from "~/components/piano";
 import { Playback } from "~/components/playback";
+import { VolumeSlider } from "~/components/volumeSlider";
 
 /*
  * Callouts:
@@ -24,6 +25,7 @@ export default function Index() {
         Play by yourself, with or without JavaScript. "Record" a song with your
         browser history.
       </h2>
+      <VolumeSlider />
       <ul>
         <li>✅ Web-based musical instrument</li>
         <li>✅ Recording and playback</li>

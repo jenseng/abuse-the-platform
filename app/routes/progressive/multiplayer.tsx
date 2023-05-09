@@ -14,6 +14,7 @@ import { Playback } from "~/components/playback";
 import { LongPollPlayback } from "~/components/longPollPlayback";
 import { HiddenTarget, hiddenTarget } from "~/components/hiddenTarget";
 import { NoteVizIframe } from "../noteViz";
+import { VolumeSlider } from "~/components/volumeSlider";
 
 /*
  * Callouts:
@@ -55,6 +56,7 @@ export default function Index() {
 
       <h1>Multiplayer Progressive Piano</h1>
       <h2>Jam with your friends, with or without JavaScript</h2>
+      <VolumeSlider />
       <ul>
         <li>✅ Web-based musical instrument</li>
         <li>✅ Multiple players</li>
