@@ -1,4 +1,3 @@
-import type { DataFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { ShouldRevalidateFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";

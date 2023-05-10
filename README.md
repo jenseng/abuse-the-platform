@@ -1,8 +1,6 @@
-# Remix Piano Demos
+# (Ab)use the Platform
 
-## (Ab)use the Platform
-
-### a.k.a. Building a Multiplayer Piano the "Wrong" Way
+## a.k.a. Building a Multiplayer Piano the "Wrong" Way
 
 Let's learn and use web standards in an unconventional way 🥳 ... we're building a piano you can play with friends. That in and of itself isn't very interesting, but we're going to be using:
 

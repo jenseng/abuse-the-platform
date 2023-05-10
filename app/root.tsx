@@ -81,9 +81,12 @@ function ServerInfo({ host }: { host: string }) {
       {query.has("showServerInfo") ? (
         <>
           <b>Canonical Server URL:</b> http://{host}
+          <br />
+          <b>GitHub Repo:</b> github.com/jenseng/abuse-the-platform
+          <br />
         </>
       ) : (
-        <Link to="?showServerInfo">Show Server Info</Link>
+        <Link to="?showServerInfo">Show Details</Link>
       )}
     </div>
   );
