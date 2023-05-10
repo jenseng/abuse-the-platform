@@ -1,7 +1,11 @@
 import { useIsHydrated } from "~/hooks/useIsHydrated";
 import { defaultSynth } from "~/utils/instruments.client";
 
-export function VolumeSlider() {
+export function VolumeSlider({
+  style = { float: "right" },
+}: {
+  style?: React.CSSProperties;
+}) {
   const isHydrated = useIsHydrated();
 
   if (!isHydrated) return null;
@@ -11,7 +15,7 @@ export function VolumeSlider() {
 
   return (
     <input
-      style={{ float: "right" }}
+      style={style}
       type="range"
       defaultValue={defaultSynth.volume.value}
       min={min}
