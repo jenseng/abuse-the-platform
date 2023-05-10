@@ -59,10 +59,10 @@ export default function Index() {
       <VolumeSlider />
       <ul>
         <li>✅ Web-based musical instrument</li>
+        <li>🚧 Recording and playback</li>
+        <li>✅ "Works" without/before JavaScript</li>
         <li>✅ Multiple players</li>
         <li>✅ Real-time visualizations</li>
-        <li>✅ "Works" without/before JavaScript</li>
-        <li>🚧 Recording and playback</li>
       </ul>
 
       <MultiSubmitForm

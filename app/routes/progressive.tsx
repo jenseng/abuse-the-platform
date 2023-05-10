@@ -10,12 +10,9 @@ import { useRootLoaderData } from "~/hooks/useRootLoaderData";
 import { getMissingNotes } from "~/utils/notes.server";
 import { RecordMissingNote } from "./notes/$note";
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader() {
   const missingNotes = await getMissingNotes();
-  return json({
-    missingNotes,
-    isAdmin: request.headers.get("Host") === "localhost:3000", // don't actually do this in a real app, this is so dumb 😂🙈
-  });
+  return json({ missingNotes });
 }
 export const shouldRevalidate: ShouldRevalidateFunction = ({ formAction }) =>
   formAction === "/notes";

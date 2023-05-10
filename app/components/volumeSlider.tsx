@@ -6,7 +6,7 @@ export function VolumeSlider() {
 
   if (!isHydrated) return null;
 
-  const min = -20;
+  const min = -40;
   const max = 0; // i.e. the current system volume
 
   return (
